@@ -18,5 +18,10 @@ echo "CMD python /home/myapp/sample_app.py" >> tempdir/Dockerfile
 
 cd tempdir
 docker build -t sampleapp .
+# Eliminar contenedor existente si existe
+if docker ps -a --format '{{.Names}}' | grep -Eq '^samplerunning$'; then
+    docker rm -f samplerunning
+fi
+
 docker run -t -d -p 8080:8080 --name samplerunning sampleapp
 docker ps -a 
